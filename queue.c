@@ -1,33 +1,48 @@
 #include "monty.h"
+/**
+ * f_queue - prints the top
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+*/
+void f_queue(stack_t **head, unsigned int counter)
+{
+	(void)head;
+	(void)counter;
+	bus.lifi = 1;
+}
 
 /**
-* f_pchar - function that prints the char at the top of the stack,
-* followed by a new line
-* @head: stack head
-* @counter: line count
-*
-* Return: nothing
+ * addqueue - add node to the tail stack
+ * @n: new_value
+ * @head: head of the stack
+ * Return: no return
 */
-void f_pchar(stack_t **head, unsigned int counter)
+void addqueue(stack_t **head, int n)
 {
-	stack_t *h;
+	stack_t *new_node, *aux;
 
-	h = *head;
-	if (!h)
+	aux = *head;
+	new_node = malloc(sizeof(stack_t));
+	if (new_node == NULL)
 	{
-		fprintf(stderr, "L%d: can't pchar, stack empty\n", counter);
-		fclose(bus.file);
-		free(bus.content);
-		free_stack(*head);
-		exit(EXIT_FAILURE);
+		printf("Error\n");
 	}
-	if (h->n > 127 || h->n < 0)
+	new_node->n = n;
+	new_node->next = NULL;
+	if (aux)
 	{
-		fprintf(stderr, "L%d: can't pchar, value out of range\n", counter);
-		fclose(bus.file);
-		free(bus.content);
-		free_stack(*head);
-		exit(EXIT_FAILURE);
+		while (aux->next)
+			aux = aux->next;
 	}
-	printf("%c\n", h->n);
+	if (!aux)
+	{
+		*head = new_node;
+		new_node->prev = NULL;
+	}
+	else
+	{
+		aux->next = new_node;
+		new_node->prev = aux;
+	}
 }
